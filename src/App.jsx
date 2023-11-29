@@ -1,10 +1,9 @@
+import SideBar from "./components/SideBar";
 function App() {
   return (
-    <>
-      <p className=" text-4xl text-center text-red-600">
-        Я тоже хочу шоколадку
-      </p>
-    </>
+    <main className="h-screen my-8 flex gap-5">
+      <SideBar></SideBar>
+    </main>
   );
 }
 
