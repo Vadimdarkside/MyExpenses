@@ -1,5 +1,5 @@
-import Categories from "./CategoryList";
-export default function SideBar({ categories }) {
+import CategoryList from "./CategoryList";
+export default function SideBar({ categories, onCategoryDelete }) {
   return (
     <aside className="w-[30%] px-8 py-16 bg-stone-900 text-stone-50 rounded-r-xl">
       <h2 className="mb-8 font-bold uppercase text-3xl text-stone-200">
@@ -9,7 +9,10 @@ export default function SideBar({ categories }) {
       <button className="w-[100%] text-xl p-4 border-b-4 mb-4 hover:bg-stone-800">
         New Category
       </button>
-      <Categories categories={categories} />
+      <CategoryList
+        categories={categories}
+        onCategoryDelete={onCategoryDelete}
+      />
     </aside>
   );
 }

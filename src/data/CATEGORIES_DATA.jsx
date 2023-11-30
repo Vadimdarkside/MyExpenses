@@ -6,13 +6,13 @@ const CATEGORIES_DATA = [
     img: "src\\assets\\categories\\console2.png",
   },
   {
-    id: 1,
+    id: 2,
     name: "+Food",
     color: "green",
     img: "src\\assets\\categories\\restaurant2.png",
   },
   {
-    id: 1,
+    id: 3,
     name: "+Entertainment",
     color: "blue",
     img: "src\\assets\\categories\\video2.png",
