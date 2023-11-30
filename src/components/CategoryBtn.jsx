@@ -1,4 +1,10 @@
-export default function CategoryBtn({ name, img, color }) {
+export default function CategoryBtn({
+  name,
+  img,
+  color,
+  id,
+  onCategoryDelete,
+}) {
   const bgColorVariants = {
     blue: "group-hover:bg-blue-300",
     red: "group-hover:bg-red-300",
@@ -22,7 +28,7 @@ export default function CategoryBtn({ name, img, color }) {
     pink: "text-pink-500",
   };
   return (
-    <button className="group h-[5rem] p-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2">
+    <button className="group h-[5rem] relative p-3 mb-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2">
       <h2 className={textColorVariants[color]}>{name}</h2>
       <div className="relative w-[4rem] h-[4rem]">
         <div
@@ -34,6 +40,18 @@ export default function CategoryBtn({ name, img, color }) {
           alt="category img"
         />
       </div>
+      <button
+        onClick={() => {
+          onCategoryDelete(id);
+        }}
+        className="hidden absolute -right-3 -top-1 group-hover:block hover:bg-gray-400/30 rounded-[1rem]"
+      >
+        <img
+          className="w-5 h-5"
+          src="src\\assets\\categories\\close2.png"
+          alt=""
+        />
+      </button>
     </button>
   );
 }
