@@ -6,7 +6,7 @@ export default function SideBar({
   onSelectCategory,
 }) {
   return (
-    <aside className="w-[30%] px-8 py-16 bg-stone-900 text-stone-50 rounded-r-xl">
+    <aside className="w-[30%] h-[100vh] px-8 py-16 bg-stone-900 text-stone-50 rounded-r-xl">
       <h2 className="mb-8 font-bold uppercase text-3xl text-stone-200">
         Your Categories
       </h2>

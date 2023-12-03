@@ -19,6 +19,7 @@ function App() {
 
       return {
         ...prevState,
+        selectedCategoryId: undefined,
         categories: filteredCategories,
       };
     });

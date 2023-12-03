@@ -1,4 +1,5 @@
 export default function CategoryBtn({
+  style,
   name,
   img,
   color,
@@ -29,33 +30,38 @@ export default function CategoryBtn({
     pink: "text-pink-500",
   };
   return (
-    <button
-      onClick={() => onSelectCategory(id)}
-      className="group h-[5rem] relative p-3 mb-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2"
-    >
-      <h2 className={textColorVariants[color]}>{name}</h2>
-      <div className="relative w-[4rem] h-[4rem]">
-        <div
-          className={`${bgColorVariants[color]} absolute top-0 w-[4rem] h-[4rem] group-hover:blur-xl `}
-        ></div>
-        <img
-          className="w-[4rem] h-[4rem] absolute top-0"
-          src={img}
-          alt="category img"
-        />
-      </div>
+    <div style={style} className="p-3">
       <button
         onClick={() => {
-          onCategoryDelete(id);
+          onSelectCategory(id);
         }}
-        className="hidden absolute -right-3 -top-1 group-hover:block hover:bg-gray-400/30 rounded-[1rem]"
+        className="group h-[5rem] relative p-3 mb-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2"
       >
-        <img
-          className="w-5 h-5"
-          src="src\\assets\\categories\\close2.png"
-          alt=""
-        />
+        <h2 className={textColorVariants[color]}>{name}</h2>
+        <div className="relative w-[4rem] h-[4rem]">
+          <div
+            className={`${bgColorVariants[color]} absolute top-0 w-[4rem] h-[4rem] group-hover:blur-xl `}
+          ></div>
+          <img
+            className="w-[4rem] h-[4rem] absolute top-0"
+            src={img}
+            alt="category img"
+          />
+        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onCategoryDelete(id);
+          }}
+          className="hidden absolute -right-3 -top-1 group-hover:block hover:bg-gray-400/30 rounded-[1rem]"
+        >
+          <img
+            className="w-5 h-5"
+            src="src\\assets\\categories\\close2.png"
+            alt=""
+          />
+        </button>
       </button>
-    </button>
+    </div>
   );
 }
