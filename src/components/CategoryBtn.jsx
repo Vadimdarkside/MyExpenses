@@ -4,6 +4,7 @@ export default function CategoryBtn({
   color,
   id,
   onCategoryDelete,
+  onSelectCategory,
 }) {
   const bgColorVariants = {
     blue: "group-hover:bg-blue-300",
@@ -28,7 +29,10 @@ export default function CategoryBtn({
     pink: "text-pink-500",
   };
   return (
-    <button className="group h-[5rem] relative p-3 mb-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2">
+    <button
+      onClick={() => onSelectCategory(id)}
+      className="group h-[5rem] relative p-3 mb-3 flex justify-between items-center w-[100%] text-3xl hover:bg-stone-800 pr-4 rounded-lg border-b-2"
+    >
       <h2 className={textColorVariants[color]}>{name}</h2>
       <div className="relative w-[4rem] h-[4rem]">
         <div

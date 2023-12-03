@@ -1,6 +1,11 @@
 import CategoryBtn from "./CategoryBtn";
-export default function Categories({ categories, onCategoryDelete }) {
+export default function Categories({
+  categories,
+  onCategoryDelete,
+  onSelectCategory,
+}) {
   return (
+    //here map with list------------------------------->
     <>
       {categories.map((item) => (
         <CategoryBtn
@@ -10,6 +15,7 @@ export default function Categories({ categories, onCategoryDelete }) {
           color={item.color}
           img={item.img}
           onCategoryDelete={onCategoryDelete}
+          onSelectCategory={onSelectCategory}
         ></CategoryBtn>
       ))}
     </>
