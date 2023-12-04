@@ -17,5 +17,41 @@ const CATEGORIES_DATA = [
     color: "blue",
     img: "src\\assets\\categories\\video2.png",
   },
+  {
+    id: 4,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
+  {
+    id: 5,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
+  {
+    id: 6,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
+  {
+    id: 7,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
+  {
+    id: 8,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
+  {
+    id: 9,
+    name: "+Some",
+    color: "blue",
+    img: "src\\assets\\categories\\video2.png",
+  },
 ];
 export default CATEGORIES_DATA;

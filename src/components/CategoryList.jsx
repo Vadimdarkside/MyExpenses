@@ -1,8 +1,39 @@
 import CategoryBtn from "./CategoryBtn";
-export default function Categories({ categories, onCategoryDelete }) {
+import "./CategoryList.css";
+import { List, AutoSizer } from "react-virtualized";
+export default function Categories({
+  categories,
+  onCategoryDelete,
+  onSelectCategory,
+}) {
   return (
     <>
-      {categories.map((item) => (
+      <AutoSizer>
+        {({ width }) => (
+          <List
+            width={width}
+            height={400}
+            rowHeight={100}
+            rowCount={categories.length}
+            rowRenderer={({ key, index, style, parent }) => {
+              const category = categories[index];
+              return (
+                <CategoryBtn
+                  style={style}
+                  id={category.id}
+                  key={key}
+                  name={category.name}
+                  color={category.color}
+                  img={category.img}
+                  onCategoryDelete={onCategoryDelete}
+                  onSelectCategory={onSelectCategory}
+                ></CategoryBtn>
+              );
+            }}
+          ></List>
+        )}
+      </AutoSizer>
+      {/* {categories.map((item) => (
         <CategoryBtn
           id={item.id}
           key={item.id}
@@ -10,8 +41,9 @@ export default function Categories({ categories, onCategoryDelete }) {
           color={item.color}
           img={item.img}
           onCategoryDelete={onCategoryDelete}
+          onSelectCategory={onSelectCategory}
         ></CategoryBtn>
-      ))}
+      ))} */}
     </>
   );
 }

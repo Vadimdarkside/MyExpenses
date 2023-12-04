@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import SideBar from "./components/SideBar";
 import CATEGORIES_DATA from "./data/CATEGORIES_DATA";
 import MainBlock from "./components/MainBlock";
+import NoCategorySelected from "./components/NoCategorySelected";
+import NewCategory from "./components/NewCategory";
+import SpinLazyFallBack from "./components/SpinLazyFallBack";
+
+const SelectedCategory = lazy(() =>
+  //тимчасова затримка імпорту
+  new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  }).then(() => import("./components/SelectedCategory")),
+);
+
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
-    //Якшо андефінед - потім будем рендерить в 'context' повідомлення, шоб користувач вибрав категорію
-    // null - рендерим форму для створення категорії
-    // якшо буде якась ід записана - рендерим інфу по даній категорії
     categories: CATEGORIES_DATA,
   });
 
@@ -19,18 +27,53 @@ function App() {
 
       return {
         ...prevState,
+        selectedCategoryId: undefined,
         categories: filteredCategories,
       };
     });
   };
+  const onCreateCategoryHandler = () => {
+    setProjectState((prev) => {
+      return {
+        ...prev,
+        selectedCategoryId: null,
+      };
+    });
+  };
+  const onSelectCategoryHandler = (id) => {
+    setProjectState((prev) => {
+      return {
+        ...prev,
+        selectedCategoryId: id,
+      };
+    });
+  };
+
+  let context;
+  if (projectState.selectedCategoryId === undefined) {
+    context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
+  } else if (projectState.selectedCategoryId === null) {
+    context = <NewCategory />;
+  } else {
+    let category = projectState.categories.find(
+      (item) => item.id === projectState.selectedCategoryId,
+    );
+    context = (
+      <Suspense fallback={SpinLazyFallBack}>
+        <SelectedCategory category={category} />
+      </Suspense>
+    );
+  }
 
   return (
     <main className="h-[100%] my-8 flex gap-2">
       <SideBar
         categories={projectState.categories}
         onCategoryDelete={onCategoryDeleteHandler}
+        onCreateCategory={onCreateCategoryHandler}
+        onSelectCategory={onSelectCategoryHandler}
       ></SideBar>
-      <MainBlock>{/* context*/}</MainBlock>
+      <MainBlock>{context}</MainBlock>
     </main>
   );
 }
