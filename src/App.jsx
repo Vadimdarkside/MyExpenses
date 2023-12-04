@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, Suspense, lazy } from "react";
 import SideBar from "./components/SideBar";
 import CATEGORIES_DATA from "./data/CATEGORIES_DATA";
 import MainBlock from "./components/MainBlock";
 import NoCategorySelected from "./components/NoCategorySelected";
 import NewCategory from "./components/NewCategory";
-import SelectedCategory from "./components/SelectedCategory";
+import SpinLazyFallBack from "./components/SpinLazyFallBack";
+
+const SelectedCategory = lazy(() =>
+  //тимчасова затримка імпорту
+  new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  }).then(() => import("./components/SelectedCategory")),
+);
+
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
@@ -50,7 +58,11 @@ function App() {
     let category = projectState.categories.find(
       (item) => item.id === projectState.selectedCategoryId,
     );
-    context = <SelectedCategory category={category} />;
+    context = (
+      <Suspense fallback={SpinLazyFallBack}>
+        <SelectedCategory category={category} />
+      </Suspense>
+    );
   }
 
   return (

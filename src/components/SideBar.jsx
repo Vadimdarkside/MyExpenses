@@ -1,4 +1,13 @@
-import CategoryList from "./CategoryList";
+import { lazy, Suspense } from "react";
+import SpinLazyFallBack from "./SpinLazyFallBack";
+
+const CategoryList = lazy(() =>
+  //тимчасова затримка імпорту
+  new Promise((resolve) => {
+    setTimeout(resolve, 500);
+  }).then(() => import("./CategoryList")),
+);
+
 export default function SideBar({
   categories,
   onCategoryDelete,
@@ -17,11 +26,13 @@ export default function SideBar({
       >
         New Category
       </button>
-      <CategoryList
-        categories={categories}
-        onCategoryDelete={onCategoryDelete}
-        onSelectCategory={onSelectCategory}
-      />
+      <Suspense fallback={SpinLazyFallBack}>
+        <CategoryList
+          categories={categories}
+          onCategoryDelete={onCategoryDelete}
+          onSelectCategory={onSelectCategory}
+        />
+      </Suspense>
     </aside>
   );
 }

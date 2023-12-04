@@ -7,7 +7,6 @@ export default function Categories({
   onSelectCategory,
 }) {
   return (
-    //here map with list------------------------------->
     <>
       <AutoSizer>
         {({ width }) => (
