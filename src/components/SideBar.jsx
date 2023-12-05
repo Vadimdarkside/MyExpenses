@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import SpinLazyFallBack from "./SpinLazyFallBack";
+import LoadingAnimation from "./LoadingAnimation";
 
 const CategoryList = lazy(() =>
   //тимчасова затримка імпорту
@@ -9,6 +9,7 @@ const CategoryList = lazy(() =>
 );
 
 export default function SideBar({
+  onLoad,
   categories,
   onCategoryDelete,
   onCreateCategory,
@@ -26,12 +27,15 @@ export default function SideBar({
       >
         New Category
       </button>
-      <Suspense fallback={SpinLazyFallBack}>
-        <CategoryList
-          categories={categories}
-          onCategoryDelete={onCategoryDelete}
-          onSelectCategory={onSelectCategory}
-        />
+      <Suspense fallback={LoadingAnimation}>
+        {onLoad && LoadingAnimation}
+        {!onLoad && (
+          <CategoryList
+            categories={categories}
+            onCategoryDelete={onCategoryDelete}
+            onSelectCategory={onSelectCategory}
+          />
+        )}
       </Suspense>
     </aside>
   );
