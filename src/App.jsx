@@ -17,41 +17,17 @@ const SelectedCategory = lazy(() =>
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
-    // categories: [],
-    // onLoad: true,
   });
-  const [data, setData, isDataLoading] = useLocalStorage(
+  const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
     CATEGORIES_DATA,
   );
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     const storedCategories =
-  //       JSON.parse(localStorage.getItem("categories")) || [];
-  //     if (storedCategories.length !== 0) {
-  //       setProjectState((prev) => {
-  //         return {
-  //           ...prev,
-  //           onLoad: false,
-  //           categories: storedCategories,
-  //         };
-  //       });
-  //     } else {
-  //       //любі друзі! Це муляж дати, коли допишете категорії, якшо допишете), треба буде прибрать
-  //       setProjectState((prev) => {
-  //         return {
-  //           ...prev,
-  //           onLoad: false,
-  //           categories: CATEGORIES_DATA,
-  //         };
-  //       });
-  //     }
-  //   }, 1000);
-  // }, []);
 
   const onCategoryDeleteHandler = (id) => {
-    const filteredCategories = data.filter((category) => category.id !== id);
-    setData(filteredCategories);
+    const filteredCategories = categories.filter(
+      (category) => category.id !== id,
+    );
+    setCategories(filteredCategories);
     setProjectState((prevState) => {
       return {
         ...prevState,
@@ -82,7 +58,7 @@ function App() {
   } else if (projectState.selectedCategoryId === null) {
     context = <NewCategory />;
   } else {
-    let category = data.find(
+    let category = categories.find(
       (item) => item.id === projectState.selectedCategoryId,
     );
     context = (
@@ -96,7 +72,7 @@ function App() {
     <main className="h-[100%] my-8 flex gap-2">
       <SideBar
         onLoad={isDataLoading}
-        categories={data}
+        categories={categories}
         onCategoryDelete={onCategoryDeleteHandler}
         onCreateCategory={onCreateCategoryHandler}
         onSelectCategory={onSelectCategoryHandler}
