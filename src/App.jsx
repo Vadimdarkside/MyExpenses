@@ -1,10 +1,11 @@
-import { useState, Suspense, lazy } from "react";
+import { useState, Suspense, lazy, useEffect } from "react";
 import SideBar from "./components/SideBar";
 import CATEGORIES_DATA from "./data/CATEGORIES_DATA";
 import MainBlock from "./components/MainBlock";
 import NoCategorySelected from "./components/NoCategorySelected";
 import NewCategory from "./components/NewCategory";
-import SpinLazyFallBack from "./components/SpinLazyFallBack";
+import LoadingAnimation from "./components/LoadingAnimation";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const SelectedCategory = lazy(() =>
   //тимчасова затримка імпорту
@@ -16,19 +17,21 @@ const SelectedCategory = lazy(() =>
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
-    categories: CATEGORIES_DATA,
   });
+  const [categories, setCategories, isDataLoading] = useLocalStorage(
+    "categories",
+    CATEGORIES_DATA,
+  );
 
   const onCategoryDeleteHandler = (id) => {
+    const filteredCategories = categories.filter(
+      (category) => category.id !== id,
+    );
+    setCategories(filteredCategories);
     setProjectState((prevState) => {
-      const filteredCategories = prevState.categories.filter(
-        (category) => category.id !== id,
-      );
-
       return {
         ...prevState,
         selectedCategoryId: undefined,
-        categories: filteredCategories,
       };
     });
   };
@@ -55,11 +58,11 @@ function App() {
   } else if (projectState.selectedCategoryId === null) {
     context = <NewCategory />;
   } else {
-    let category = projectState.categories.find(
+    let category = categories.find(
       (item) => item.id === projectState.selectedCategoryId,
     );
     context = (
-      <Suspense fallback={SpinLazyFallBack}>
+      <Suspense fallback={LoadingAnimation}>
         <SelectedCategory category={category} />
       </Suspense>
     );
@@ -68,7 +71,8 @@ function App() {
   return (
     <main className="h-[100%] my-8 flex gap-2">
       <SideBar
-        categories={projectState.categories}
+        onLoad={isDataLoading}
+        categories={categories}
         onCategoryDelete={onCategoryDeleteHandler}
         onCreateCategory={onCreateCategoryHandler}
         onSelectCategory={onSelectCategoryHandler}
