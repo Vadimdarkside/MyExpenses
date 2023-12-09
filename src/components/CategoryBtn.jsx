@@ -1,5 +1,3 @@
-import DeleteCategoryModal from "./Modal/DeleteCategoryModal";
-import { useRef } from "react";
 export default function CategoryBtn({
   style,
   name,
@@ -31,16 +29,9 @@ export default function CategoryBtn({
     fuchsia: "text-fuchsia-500",
     pink: "text-pink-500",
   };
-  const Modal = useRef();
 
   return (
     <>
-      <DeleteCategoryModal
-        ref={Modal}
-        onApply={() => {
-          onCategoryDelete(id);
-        }}
-      />
       <div style={style} className="p-3">
         <button
           onClick={() => {
@@ -62,7 +53,7 @@ export default function CategoryBtn({
           <button
             onClick={(e) => {
               e.stopPropagation();
-              Modal.current.Open();
+              onCategoryDelete(id);
             }}
             className="hidden absolute -right-3 -top-1 group-hover:block hover:bg-gray-400/30 rounded-[1rem]"
           >
