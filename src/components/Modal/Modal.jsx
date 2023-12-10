@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { createPortal } from "react-dom";
-const Modal = forwardRef(function Modal({ children, onApply }, ref) {
+const Modal = forwardRef(function Modal({ children, onApply, onClose }, ref) {
   const dialog = useRef();
   useImperativeHandle(ref, () => {
     return {
@@ -29,6 +29,7 @@ const Modal = forwardRef(function Modal({ children, onApply }, ref) {
           <button
             className="p-1 px-4 mr-2 border-black border-2 rounded-xl hover:bg-gray-400/70"
             onClick={() => {
+              onClose?.();
               dialog.current.close();
             }}
           >

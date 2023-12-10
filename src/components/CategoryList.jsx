@@ -44,6 +44,9 @@ export default function Categories({
               onCategoryDelete(deleteId);
               setDeleteId(null);
             }}
+            onClose={() => {
+              setDeleteId(null);
+            }}
           />
           <AutoSizer>
             {({ width }) => (
