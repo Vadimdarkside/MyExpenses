@@ -6,7 +6,9 @@ import NoCategorySelected from "./components/NoCategorySelected";
 import NewCategory from "./components/NewCategory";
 import LoadingAnimation from "./components/LoadingAnimation";
 import useLocalStorage from "./hooks/useLocalStorage";
-
+import Winter from "./components/Theme/Winter";
+import TopBar from "./components/TopBar";
+import "./App.css";
 const SelectedCategory = lazy(() =>
   //тимчасова затримка імпорту
   new Promise((resolve) => {
@@ -17,6 +19,7 @@ const SelectedCategory = lazy(() =>
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
+    theme: null,
   });
   const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
@@ -68,17 +71,42 @@ function App() {
     );
   }
 
+  const ThemeSwitch = () => {
+    if (projectState.theme == "winter") {
+      setProjectState((prev) => {
+        return {
+          ...prev,
+          theme: null,
+        };
+      });
+    } else {
+      setProjectState((prev) => {
+        return {
+          ...prev,
+          theme: "winter",
+        };
+      });
+    }
+  };
+
   return (
-    <main className="h-[100%] my-8 flex gap-2">
-      <SideBar
-        onLoad={isDataLoading}
-        categories={categories}
-        onCategoryDelete={onCategoryDeleteHandler}
-        onCreateCategory={onCreateCategoryHandler}
-        onSelectCategory={onSelectCategoryHandler}
-      ></SideBar>
-      <MainBlock>{context}</MainBlock>
-    </main>
+    <>
+      <TopBar onThemeChange={ThemeSwitch} />
+      <main className="h-[100%] flex gap-2 relative overflow-hidden">
+        {projectState.theme == "winter" ? (
+          <Winter theme={projectState.theme} />
+        ) : null}
+        <SideBar
+          theme={projectState.theme}
+          onLoad={isDataLoading}
+          categories={categories}
+          onCategoryDelete={onCategoryDeleteHandler}
+          onCreateCategory={onCreateCategoryHandler}
+          onSelectCategory={onSelectCategoryHandler}
+        ></SideBar>
+        <MainBlock theme={projectState.theme}>{context}</MainBlock>
+      </main>
+    </>
   );
 }
 
