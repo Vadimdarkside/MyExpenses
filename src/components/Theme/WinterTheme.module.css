@@ -1,0 +1,61 @@
+.Snow,
+.Snow:after,
+.Snow:before {
+  content: "";
+  z-index: 15;
+  pointer-events: none;
+  position: absolute;
+  top: -650px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(4px 4px at 100px 50px, #fff, transparent),
+    radial-gradient(4px 4px at 200px 150px, #fff, transparent),
+    radial-gradient(4px 4px at 300px 250px, #fff, transparent),
+    radial-gradient(4px 4px at 400px 350px, #fff, transparent),
+    radial-gradient(4px 4px at 500px 100px, #fff, transparent),
+    radial-gradient(4px 4px at 50px 200px, #fff, transparent),
+    radial-gradient(4px 4px at 150px 300px, #fff, transparent),
+    radial-gradient(4px 4px at 250px 400px, #fff, transparent),
+    radial-gradient(4px 4px at 350px 500px, #fff, transparent);
+  background-size: 650px 650px;
+  animation: snow 3s linear;
+  animation-iteration-count: infinite;
+}
+
+.Snow:after {
+  margin-left: -250px;
+  opacity: 0.5;
+  filter: bluer(2px);
+  animation-direction: reverse;
+  animation-duration: 6s;
+}
+
+.Snow:before {
+  margin-left: -350px;
+  opacity: 0.7;
+  filter: bluer(1px);
+  animation-direction: reverse;
+  animation-duration: 9s;
+}
+
+@keyframes snow {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(650px);
+  }
+}
+
+.GoslingWinter {
+  background-image: url(../../assets/Theme/Winter/Gosling.gif);
+  background-position: center;
+  background-size: cover;
+}
+.GoslingPngWinter {
+  width: 130px;
+  height: 130px;
+  background-image: url(../../assets/Theme/Winter/GoslingNew.png);
+  background-size: cover;
+}
