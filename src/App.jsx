@@ -93,9 +93,7 @@ function App() {
     <>
       <TopBar onThemeChange={ThemeSwitch} />
       <main className="h-[100%] flex gap-2 relative overflow-hidden">
-        {projectState.theme == "winter" ? (
-          <Winter theme={projectState.theme} />
-        ) : null}
+        {projectState.theme == "winter" ? <Winter /> : null}
         <SideBar
           theme={projectState.theme}
           onLoad={isDataLoading}
