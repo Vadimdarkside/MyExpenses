@@ -10,7 +10,7 @@ export default function ExpenseForm({ onAddExpense }) {
     onAddExpense({ title, amount: Number(amount) });
     setTitle('');
     setAmount('');
-    setShowForm(false);
+    setShowForm(true);
   };
 
   const formStyle = {

@@ -28,7 +28,9 @@ export default function ExpenseList({ expenses, onDeleteExpense }) {
         </tr>
       </thead>
       <tbody>
-      {expenses[0] && <ExpenseItem key={expenses[0].id} expense={expenses[0]} onDelete={onDeleteExpense} />}
+      {expenses.map((expense) => (
+        <ExpenseItem key={expense.id} expense={expense} onDelete={onDeleteExpense} />
+      ))}
       </tbody>
     </table>
   );
