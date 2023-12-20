@@ -15,6 +15,7 @@ export default function SideBar({
   onCategoryDelete,
   onCreateCategory,
   onSelectCategory,
+  onTotalExpenses
 }) {
   return (
     <aside className="w-[30%] h-[100vh] px-8 py-10 bg-stone-900 text-stone-50 rounded-r-xl z-10">
@@ -32,6 +33,13 @@ export default function SideBar({
         className="w-[100%] text-xl p-4 border-b-4 mb-4 hover:bg-stone-800"
       >
         New Category
+      </button>
+      <div className="border-b-4"></div>
+      <button
+        onClick={onTotalExpenses}
+        className="w-[100%] text-xl p-4 border-b-4 mb-4 hover:bg-stone-800"
+      >
+        Total expenses
       </button>
       <Suspense fallback={LoadingAnimation}>
         {onLoad && LoadingAnimation}

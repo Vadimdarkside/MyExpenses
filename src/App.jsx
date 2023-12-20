@@ -10,6 +10,7 @@ import Winter from "./components/Theme/Winter";
 import TopBar from "./components/TopBar";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
+import TotalExpenses from "./components/TotalExpenses";
 import "./App.css";
 const SelectedCategory = lazy(() =>
   //тимчасова затримка імпорту
@@ -23,6 +24,7 @@ function App() {
     selectedCategoryId: undefined,
     theme: null,
   });
+  const [showTotalExpenses, setShowTotalExpenses] = useState(false);
   const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
     CATEGORIES_DATA,
@@ -53,6 +55,7 @@ function App() {
     });
   };
   const onCreateCategoryHandler = () => {
+    setShowTotalExpenses(false);
     setProjectState((prev) => {
       return {
         ...prev,
@@ -60,7 +63,9 @@ function App() {
       };
     });
   };
+  
   const onSelectCategoryHandler = (id) => {
+    setShowTotalExpenses(false);
     setProjectState((prev) => {
       return {
         ...prev,
@@ -69,8 +74,15 @@ function App() {
     });
   };
 
+  const onTotalExpensesHandler = () => {
+    setShowTotalExpenses(true);
+  };
+    
+
   let context;
-  if (projectState.selectedCategoryId === undefined) {
+  if (showTotalExpenses) {
+    context = <TotalExpenses />;
+  } else if (projectState.selectedCategoryId === undefined) {
     context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
   } else if (projectState.selectedCategoryId === null) {
     context = <NewCategory />;
@@ -117,6 +129,7 @@ function App() {
           onCategoryDelete={onCategoryDeleteHandler}
           onCreateCategory={onCreateCategoryHandler}
           onSelectCategory={onSelectCategoryHandler}
+          onTotalExpenses={onTotalExpensesHandler}
         ></SideBar>
         <MainBlock theme={projectState.theme}>{context}</MainBlock>
       </main>
