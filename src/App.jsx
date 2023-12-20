@@ -8,6 +8,8 @@ import LoadingAnimation from "./components/LoadingAnimation";
 import useLocalStorage from "./hooks/useLocalStorage";
 import Winter from "./components/Theme/Winter";
 import TopBar from "./components/TopBar";
+import ExpenseForm from "./components/ExpenseForm";
+import ExpenseList from "./components/ExpenseList";
 import "./App.css";
 const SelectedCategory = lazy(() =>
   //тимчасова затримка імпорту
@@ -25,6 +27,18 @@ function App() {
     "categories",
     CATEGORIES_DATA,
   );
+
+  const [expenses, setExpenses] = useState([]);
+  function addExpenseHandler(expense) {
+    setExpenses((prevExpenses) => [
+      ...prevExpenses,
+      { id: Math.random().toString(), ...expense },
+    ]);
+  }
+
+  const deleteExpenseHandler = (id) => {
+    setExpenses(prevExpenses => prevExpenses.filter(expense => expense.id !== id));
+  };
 
   const onCategoryDeleteHandler = (id) => {
     const filteredCategories = categories.filter(
@@ -67,6 +81,8 @@ function App() {
     context = (
       <Suspense fallback={LoadingAnimation}>
         <SelectedCategory category={category} />
+        <ExpenseForm onAddExpense={addExpenseHandler} />
+        <ExpenseList expenses={expenses} onDeleteExpense={deleteExpenseHandler} />
       </Suspense>
     );
   }
