@@ -10,14 +10,18 @@ import Winter from "./components/Theme/Winter";
 import TopBar from "./components/TopBar";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
-import TotalExpenses from "./components/TotalExpenses";
 import "./App.css";
-const SelectedCategory = lazy(() =>
-  //тимчасова затримка імпорту
-  new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => import("./components/SelectedCategory")),
-);
+
+function lazyWithDelay(importStatement, delay) {
+  return lazy(() =>
+    new Promise(resolve => {
+      setTimeout(resolve, delay);
+    }).then(importStatement)
+  );
+}
+
+const SelectedCategory = lazyWithDelay(() => import("./components/SelectedCategory"), 1000);
+const TotalExpenses = lazyWithDelay(() => import('./components/TotalExpenses'), 500);
 
 function App() {
   const [projectState, setProjectState] = useState({
@@ -81,7 +85,11 @@ function App() {
 
   let context;
   if (showTotalExpenses) {
-    context = <TotalExpenses />;
+    context = (
+    <Suspense fallback={LoadingAnimation}>
+      <TotalExpenses />
+    </Suspense>
+  );
   } else if (projectState.selectedCategoryId === undefined) {
     context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
   } else if (projectState.selectedCategoryId === null) {
