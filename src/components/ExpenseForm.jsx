@@ -10,11 +10,37 @@ export default function ExpenseForm({ onAddExpense }) {
     setTitle('');
     setAmount('');
   };
+
+  const formStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '10px',
+    marginTop: '20px'
+  };
+
+  const inputStyle = {
+    padding: '10px',
+    fontSize: '16px',
+    borderRadius: '5px',
+    border: '1px solid #ccc'
+  };
+
+  const buttonStyle = {
+    padding: '10px 20px',
+    fontSize: '16px',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#4caf50',
+    color: 'white',
+    cursor: 'pointer',
+  };
+
   return (
-    <form onSubmit={submitHandler}>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Expense Title" />
-      <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Amount" />
-      <button type="submit">Add Expense</button>
+    <form onSubmit={submitHandler} style={formStyle}>
+      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Expense Title" required style={inputStyle} />
+      <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Amount" required style={inputStyle} />
+      <button type="submit" style={buttonStyle}>Add Expense</button>
     </form>
   );
 }
