@@ -11,18 +11,24 @@ import TopBar from "./components/TopBar";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import "./App.css";
-const SelectedCategory = lazy(() =>
-  //тимчасова затримка імпорту
-  new Promise((resolve) => {
-    setTimeout(resolve, 1000);
-  }).then(() => import("./components/SelectedCategory")),
-);
+
+function lazyWithDelay(importStatement, delay) {
+  return lazy(() =>
+    new Promise(resolve => {
+      setTimeout(resolve, delay);
+    }).then(importStatement)
+  );
+}
+
+const SelectedCategory = lazyWithDelay(() => import("./components/SelectedCategory"), 1000);
+const TotalExpenses = lazyWithDelay(() => import('./components/TotalExpenses'), 500);
 
 function App() {
   const [projectState, setProjectState] = useState({
     selectedCategoryId: undefined,
     theme: null,
   });
+  const [showTotalExpenses, setShowTotalExpenses] = useState(false);
   const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
     CATEGORIES_DATA,
@@ -53,6 +59,7 @@ function App() {
     });
   };
   const onCreateCategoryHandler = () => {
+    setShowTotalExpenses(false);
     setProjectState((prev) => {
       return {
         ...prev,
@@ -60,7 +67,9 @@ function App() {
       };
     });
   };
+  
   const onSelectCategoryHandler = (id) => {
+    setShowTotalExpenses(false);
     setProjectState((prev) => {
       return {
         ...prev,
@@ -69,8 +78,19 @@ function App() {
     });
   };
 
+  const onTotalExpensesHandler = () => {
+    setShowTotalExpenses(true);
+  };
+    
+
   let context;
-  if (projectState.selectedCategoryId === undefined) {
+  if (showTotalExpenses) {
+    context = (
+    <Suspense fallback={LoadingAnimation}>
+      <TotalExpenses />
+    </Suspense>
+  );
+  } else if (projectState.selectedCategoryId === undefined) {
     context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
   } else if (projectState.selectedCategoryId === null) {
     context = <NewCategory />;
@@ -117,6 +137,7 @@ function App() {
           onCategoryDelete={onCategoryDeleteHandler}
           onCreateCategory={onCreateCategoryHandler}
           onSelectCategory={onSelectCategoryHandler}
+          onTotalExpenses={onTotalExpensesHandler}
         ></SideBar>
         <MainBlock theme={projectState.theme}>{context}</MainBlock>
       </main>
