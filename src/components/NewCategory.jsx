@@ -6,16 +6,16 @@ export default function NewCategory() {
 
   useEffect(() => {
     const importImages = async () => {
-      const context = import.meta.glob('../assets/categories/categIcons/*.png'); //Хз чи запаше на вінді
+      const context = import.meta.glob("/src/assets/categories/categIcons/*.png");
       const images = await Promise.all(
         Object.keys(context).map(async (key) => {
           const module = await context[key]();
-          return { path: key, module };
+          return { path: key, module: module.default }; // Access URL correctly
         })
       );
       setImageList(images);
     };
-
+  
     importImages();
   }, []);
 
@@ -39,15 +39,16 @@ export default function NewCategory() {
   };
 
   const formStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
     padding: '20px',
     textAlign: 'center',
+    color: 'white',
   };
 
   const inputStyle = {
-    marginTop: '10px',
+    marginTop: '50px',
     width: '80%',
     padding: '8px',
     marginBottom: '16px',
@@ -69,7 +70,13 @@ export default function NewCategory() {
   }
 
 
-
+const imagesButtonStyle = {
+  width: '50px',
+  margin: '10px 10px 10px 10px',
+}
+const imagesConteinerStyle = {
+  
+}
 
 
   
@@ -81,13 +88,14 @@ export default function NewCategory() {
           <input type="text" style={inputStyle} placeholder="Enter name..." /><br />
           <label>Choose picture for your category:</label>
           <div>
-          <select style={inputStyle} value={selectedImage} onChange={handleImageChange}>
-            {imageList.map((image, index) => (
-              <option key={index} value={image.path}>
-                {image.path.split('/').pop()}
-              </option>
-            ))}
-          </select>
+            
+              {imageList.map((image, index) => (
+                <button style={imagesButtonStyle}>
+                
+                  <img  src={image.path}  />
+                
+                </button>
+              ))}
           </div>
           <button type='submit' style={buttonStyle}>Create</button>
         </form>
