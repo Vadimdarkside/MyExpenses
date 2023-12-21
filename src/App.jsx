@@ -34,9 +34,16 @@ function App() {
     CATEGORIES_DATA,
   );
     const addCategoryHandler = (category) => {
+       
        setCategories((prev)=>{
          return [...prev, category]
        })
+       setProjectState((prev) => {
+        return {
+          ...prev,
+          selectedCategoryId: ++category.id,
+        };
+      });
     }
   const [expenses, setExpenses] = useState([]);
   function addExpenseHandler(expense) {
