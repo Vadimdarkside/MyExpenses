@@ -20,9 +20,6 @@ export default function ExpenseList({ expenses, onDeleteExpense, selectedCategor
     borderBottom: '1px solid #ddd',
     borderRight: '1px solid #ddd'
   };
-  //console.log(expenses);
-  const date = new Date();
-  console.log(date);
   return (
     <table style={tableStyle}>
       <thead>
