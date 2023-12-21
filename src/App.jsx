@@ -12,6 +12,7 @@ import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 import useLocalStorageState from "./hooks/useLocalStorageState";
 import EXPENSES_DATA from "./data/EXPENSES_DATA";
+import FontSizeController from "./components/FontSizeController";
 import "./App.css";
 
 function lazyWithDelay(importStatement, delay) {
@@ -30,12 +31,12 @@ function App() {
     selectedCategoryId: undefined,
     theme: null,
   });
+  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
   const [showTotalExpenses, setShowTotalExpenses] = useState(false);
   const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
     CATEGORIES_DATA,
   );
-  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
     const addCategoryHandler = (category) => {
        
        setCategories((prev)=>{
@@ -48,6 +49,15 @@ function App() {
         };
       });
     }
+
+  const [fontSize, setFontSize] = useState(16);
+  const increaseFontSize = () => {
+    setFontSize(prevFontSize => prevFontSize + 1);
+  };
+  const decreaseFontSize = () => {
+    setFontSize(prevFontSize => prevFontSize - 1);
+  };
+
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
@@ -147,7 +157,8 @@ function App() {
   return (
     <>
       <TopBar onThemeChange={ThemeSwitch} />
-      <main className="h-[100%] flex gap-2 relative overflow-hidden">
+      <FontSizeController increaseFontSize={increaseFontSize} decreaseFontSize={decreaseFontSize} />
+      <main className="h-[100%] flex gap-2 relative overflow-hidden" style={{ fontSize: `${fontSize}px` }}>
         {projectState.theme == "winter" ? <Winter /> : null}
         <SideBar
           theme={projectState.theme}
