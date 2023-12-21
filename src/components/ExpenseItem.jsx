@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
+import './ExpenseItem.css';
 
 export default function ExpenseItem({ expense, onDelete }) {
+  const itemRef = useRef();
   const buttonStyle = {
     padding: '5px 10px',
     fontSize: '16px',
@@ -11,8 +13,20 @@ export default function ExpenseItem({ expense, onDelete }) {
     cursor: 'pointer'
   };
 
+  useEffect(() => {
+    itemRef.current.classList.add('animate');
+
+    const timer = setTimeout(() => {
+      itemRef.current.classList.remove('animate');
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
-    <tr>
+    <tr ref={itemRef}>
       <td>{expense.title}</td>
       <td>{expense.amount}$</td>
       <td>

@@ -10,6 +10,8 @@ import Winter from "./components/Theme/Winter";
 import TopBar from "./components/TopBar";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
+import useLocalStorageState from "./hooks/useLocalStorageState";
+import EXPENSES_DATA from "./data/EXPENSES_DATA";
 import "./App.css";
 
 function lazyWithDelay(importStatement, delay) {
@@ -33,8 +35,8 @@ function App() {
     "categories",
     CATEGORIES_DATA,
   );
-
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
+  
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
@@ -101,8 +103,15 @@ function App() {
     context = (
       <Suspense fallback={LoadingAnimation}>
         <SelectedCategory category={category} />
-        <ExpenseForm onAddExpense={addExpenseHandler} />
-        <ExpenseList expenses={expenses} onDeleteExpense={deleteExpenseHandler} />
+        <ExpenseForm 
+        onAddExpense={addExpenseHandler} 
+        selectedCategoryId={projectState.selectedCategoryId}
+        />
+        <ExpenseList 
+        expenses={expenses} 
+        onDeleteExpense={deleteExpenseHandler}
+        selectedCategoryId={projectState.selectedCategoryId}
+         />
       </Suspense>
     );
   }
@@ -124,7 +133,6 @@ function App() {
       });
     }
   };
-
   return (
     <>
       <TopBar onThemeChange={ThemeSwitch} />
