@@ -35,6 +35,7 @@ function App() {
     "categories",
     CATEGORIES_DATA,
   );
+  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
     const addCategoryHandler = (category) => {
        
        setCategories((prev)=>{
@@ -47,7 +48,6 @@ function App() {
         };
       });
     }
-  const [expenses, setExpenses] = useState([]);
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
