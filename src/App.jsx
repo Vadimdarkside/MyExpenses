@@ -31,23 +31,12 @@ function App() {
     selectedCategoryId: undefined,
     theme: null,
   });
+  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
   const [showTotalExpenses, setShowTotalExpenses] = useState(false);
   const [categories, setCategories, isDataLoading] = useLocalStorage(
     "categories",
     CATEGORIES_DATA,
   );
-  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
-
-  const [fontSize, setFontSize] = useState(16);
-
-  const increaseFontSize = () => {
-    setFontSize(prevFontSize => prevFontSize + 1);
-  };
-
-  const decreaseFontSize = () => {
-    setFontSize(prevFontSize => prevFontSize - 1);
-  };
-
     const addCategoryHandler = (category) => {
        
        setCategories((prev)=>{
@@ -60,6 +49,15 @@ function App() {
         };
       });
     }
+
+  const [fontSize, setFontSize] = useState(16);
+  const increaseFontSize = () => {
+    setFontSize(prevFontSize => prevFontSize + 1);
+  };
+  const decreaseFontSize = () => {
+    setFontSize(prevFontSize => prevFontSize - 1);
+  };
+
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
