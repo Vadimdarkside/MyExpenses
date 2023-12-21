@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
-export default function ExpenseForm({ onAddExpense }) {
+export default function ExpenseForm({ onAddExpense, selectedCategoryId }) {
   const [title, setTitle] = useState('');
   const [amount, setAmount] = useState('');
   const [showForm, setShowForm] = useState(false);
 
+  const titleInputRef = useRef();
+
+  useEffect(() => {
+    if (showForm) {
+      titleInputRef.current.focus();
+    }
+  }, [showForm]);
+
   const submitHandler = (event) => {
     event.preventDefault();
-    onAddExpense({ title, amount: Number(amount) });
+    const currentDate = new Date().toLocaleDateString();
+    onAddExpense({ category_id: selectedCategoryId, title, amount: Number(amount), date: currentDate });
     setTitle('');
     setAmount('');
     setShowForm(true);
@@ -65,7 +74,7 @@ export default function ExpenseForm({ onAddExpense }) {
 
   return (
     <form onSubmit={submitHandler} style={formStyle}>
-      <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Expense Title" required style={inputStyle} />
+      <input ref={titleInputRef} type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Expense Title" required style={inputStyle} />
       <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="Amount" required style={inputStyle} />
       <button type="submit" style={buttonStyle}>Add Expense</button>
       <button type="button" style={{ ...buttonStyle, backgroundColor: 'white', color: 'black' }} onClick={() => setShowForm(false)}>Hide Form</button>
