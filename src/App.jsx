@@ -33,7 +33,11 @@ function App() {
     "categories",
     CATEGORIES_DATA,
   );
-
+    const addCategoryHandler = (category) => {
+       setCategories((prev)=>{
+         return [...prev, category]
+       })
+    }
   const [expenses, setExpenses] = useState([]);
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
@@ -93,7 +97,7 @@ function App() {
   } else if (projectState.selectedCategoryId === undefined) {
     context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
   } else if (projectState.selectedCategoryId === null) {
-    context = <NewCategory />;
+    context = <NewCategory onAddCategory={addCategoryHandler} categories={categories}/>;
   } else {
     let category = categories.find(
       (item) => item.id === projectState.selectedCategoryId,

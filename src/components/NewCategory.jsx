@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
-export default function NewCategory() {
+export default function NewCategory({onAddCategory, categories}) {
   const [imageList, setImageList] = useState([]);
   const [selectedImage, setSelectedImage] = useState('');
+
+  const name = useRef();
+  const colorRef = useRef();
+  const imageRef = useRef();
 
   useEffect(() => {
     const importImages = async () => {
@@ -19,17 +23,31 @@ export default function NewCategory() {
     importImages();
   }, []);
 
-  const handleImageChange = (event) => {
-    setSelectedImage(event.target.value);
+
+
+  const onSubmit = (event) => {
+    event.preventDefault()
+    const category = {
+      id: idCalculator(),
+      name: name.current.value,
+      color: colorRef.current,
+      img: imageRef.current,
+    };  
+    console.log(category)
+
+    onAddCategory(category)
   };
 
-  const submitHandler = (event) => {
+ function idCalculator(){
+    const categoryid = ++categories[categories.length-1].id
+    return categoryid;
+ }
 
-  };
+ const [selectedColor, setSelectedColor] = useState('#f44336');
 
+ 
 
-
-
+ const colors = ['blue', 'red', 'green', 'lime', 'sky', 'indigo', 'violet', 'fuchsia', 'pink'];
 
   const containerStyle = {
     display: 'flex',
@@ -48,6 +66,7 @@ export default function NewCategory() {
   };
 
   const inputStyle = {
+    color: 'black',
     marginTop: '50px',
     width: '80%',
     padding: '8px',
@@ -77,20 +96,52 @@ const imagesButtonStyle = {
 const imagesConteinerStyle = {
   
 }
-
+const colorSelectStyle = {
+  width: '50%',
+  height: '30px',
+  textAlign: 'center',
+  margin: '20px auto', // Add margin and set auto to center horizontally
+}
 
   
   return (
     <div>
       <div style={containerStyle}>
-        <form style={formStyle}>
+        <form style={formStyle} onSubmit={onSubmit}>
           <h1 className="text-5xl mb-2">Create Expenses category</h1>
-          <input type="text" style={inputStyle} placeholder="Enter name..." /><br />
+          <input type="text" ref={name} style={inputStyle} placeholder="Enter name..." /><br />
+          <div>
+            <label>Choose font color</label>
+            <div>
+            <div>
+          <div style={colorSelectStyle}>
+            {colors.map((color, index) => (
+              <button
+                key={index}
+                type="button" onClick={() => {colorRef.current = color}}
+                style={{
+                  backgroundColor: color,
+                  width: '30px',
+                  height: '30px',
+                  margin: '2px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  borderRadius: '50%',
+                  boxShadow: selectedColor === color ? '0 0 0 3px inset white' : 'none',
+                }}
+                
+              ></button>
+            ))}
+          </div> <br></br>
+        </div>
+                    
+            </div>
+          </div>
           <label>Choose picture for your category:</label>
           <div>
             
               {imageList.map((image, index) => (
-                <button style={imagesButtonStyle}>
+                <button type='button' style={imagesButtonStyle} onClick={() => {imageRef.current = image.path}}>
                 
                   <img  src={image.path}  />
                 
