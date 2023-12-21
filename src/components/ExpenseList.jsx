@@ -1,7 +1,10 @@
 import React from 'react';
 import ExpenseItem from './ExpenseItem';
+import useFilteredExpenses from '../hooks/useFilteredExpenses';
 
-export default function ExpenseList({ expenses, onDeleteExpense }) {
+export default function ExpenseList({ expenses, onDeleteExpense, selectedCategoryId }) {
+  const filteredExpenses = useFilteredExpenses(expenses, selectedCategoryId);
+
   const tableStyle = {
     marginTop: '20px',
     borderCollapse: 'collapse',
@@ -17,7 +20,9 @@ export default function ExpenseList({ expenses, onDeleteExpense }) {
     borderBottom: '1px solid #ddd',
     borderRight: '1px solid #ddd'
   };
-
+  //console.log(expenses);
+  const date = new Date();
+  console.log(date);
   return (
     <table style={tableStyle}>
       <thead>
@@ -28,7 +33,7 @@ export default function ExpenseList({ expenses, onDeleteExpense }) {
         </tr>
       </thead>
       <tbody>
-      {expenses.map((expense) => (
+      {filteredExpenses.map((expense) => (
         <ExpenseItem key={expense.id} expense={expense} onDelete={onDeleteExpense} />
       ))}
       </tbody>
