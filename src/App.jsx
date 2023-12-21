@@ -35,8 +35,19 @@ function App() {
     "categories",
     CATEGORIES_DATA,
   );
-  const [expenses, setExpenses] = useLocalStorageState("expenses", EXPENSES_DATA);
-  
+    const addCategoryHandler = (category) => {
+       
+       setCategories((prev)=>{
+         return [...prev, category]
+       })
+       setProjectState((prev) => {
+        return {
+          ...prev,
+          selectedCategoryId: ++category.id,
+        };
+      });
+    }
+  const [expenses, setExpenses] = useState([]);
   function addExpenseHandler(expense) {
     setExpenses((prevExpenses) => [
       ...prevExpenses,
@@ -95,7 +106,7 @@ function App() {
   } else if (projectState.selectedCategoryId === undefined) {
     context = <NoCategorySelected onCreateCategory={onCreateCategoryHandler} />;
   } else if (projectState.selectedCategoryId === null) {
-    context = <NewCategory />;
+    context = <NewCategory onAddCategory={addCategoryHandler} categories={categories}/>;
   } else {
     let category = categories.find(
       (item) => item.id === projectState.selectedCategoryId,
